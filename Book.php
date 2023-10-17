@@ -5,17 +5,16 @@ class Book {
     private $title;
     private $author;
     private $available;
-
     public function __construct(
-        string $isbn,
-        string $title,
-        string $author,
-        int $available = 0
+    int $isbn,
+    string $title,
+    string $author,
+    int $available = 0
     ) {
-        $this->isbn = $isbn;
-        $this->title = $title;
-        $this->author = $author;
-        $this->available = $available;
+    $this->isbn = $isbn;
+    $this->title = $title;
+    $this->author = $author;
+    $this->available = $available;
     }
     public function __get($name) {
         if($name == 'title') {
