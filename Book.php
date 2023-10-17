@@ -1,93 +1,82 @@
-<?php
+<?php 
 
-class Book
-{
+class Book {
     private $isbn;
     private $title;
     private $author;
     private $available;
 
-    public function __construct($isbn, $title, $author, $available)
-    {
+    public function __construct(
+        string $isbn,
+        string $title,
+        string $author,
+        int $available = 0
+    ) {
         $this->isbn = $isbn;
         $this->title = $title;
         $this->author = $author;
         $this->available = $available;
     }
-
-    public function getIsbn()
-    {
-        return $this->isbn;
+    public function __get($name) {
+        if($name == 'title') {
+            return $this->title;
+        }
+        elseif($name == 'author') {
+            return $this->author;
+        }
+        elseif($name == 'isbn') {
+            return $this->isbn;
+        }
+        elseif($name == 'availableCopy') {
+            return $this->available;
+        }
     }
-
-    public function getTitle()
-    {
-        return $this->title;
+    public function __set($name, $value) {
+        if($name == 'available') {
+            $this->available = $value;
+        }
+        elseif($name == 'title') {
+            $this->title = $value;
+        }
+        elseif($name == 'author') {
+            $this->author = $value;
+        }
+        elseif($name == 'isbn') {
+            $this->isbn = $value;
+        }
+        elseif($name == 'availableCopy') {
+            $this->available = $value;
+        }
     }
-
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    public function getAvailable()
-    {
-        return $this->available;
-    }
-
-    public function setIsbn($isbn)
-    {
-        $this->isbn = $isbn;
-    }
-
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-    }
-
-    public function setAvailable($available)
-    {
-        $this->available = $available;
-    }
-
-    public function getCopy()
-    {
-        return $this->available > 0;
-    }
-
-    public function addCopy($num)
-    {
-        if ($num > 0) {
-            $this->available += $num;
+    public function __call($method, $args) {
+        if($method == 'getCopy') {
+            if($this->available < 1) {
+                return false;
+            } else {
+                $this->available--;
+                return true;
+            }
+        }
+        elseif($method == 'addCopy') {
+            $this->available = $this->available + $args[0];
             return true;
         }
-        return false;
-    }
-
-    public function __toString()
-    {
-        return "ISBN: {$this->isbn}, Title: {$this->title}, Author: {$this->author}, Available: {$this->available}";
-    }
-
-    public function __call($name, $arguments)
-    {
-        if (strpos($name, 'get') === 0) {
-            $property = lcfirst(substr($name, 3));
-            if (property_exists($this, $property)) {
-                return $this->$property;
-            }
-        } elseif (strpos($name, 'set') === 0) {
-            $property = lcfirst(substr($name, 3));
-            if (property_exists($this, $property)) {
-                $this->$property = $arguments[0];
+        elseif($method == 'isAvailable') {
+            if($this->available < 1) {
+                return false;
+            } else {
+                return true;
             }
         }
+        elseif($method == 'getPrintableTitle') {
+            $result = '<i>' . $this->title . '</i> - ' . $this->author;
+            if(!$this->available) {
+                $result .= '<b> Not available</b>';
+            }
+            return $result;
+        }
     }
+
 }
 
 ?>

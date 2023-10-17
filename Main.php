@@ -1,33 +1,50 @@
 <?php
+
 require_once 'Book.php';
 require_once 'Customer.php';
 
-// Create a Book object
-$book = new Book(123456, 'Sample Book', 'John Doe', 5);
+$book1 = new Book("1984", "George Orwell", 9785267006323, 12);
+$book2 = new Book("To Kill a Mockingbird", "Harper Lee",9780061120084, 2);
+$book3 = new Book(
+    '9788187981953',
+    'Krishno Pokkho',
+    'Humayun Ahmed',
+    0
+);
 
-// Create a Customer object
-$customer = new Customer(1, 'Alice', 'Johnson', 'alice@example.com');
+$customer1 = new Customer(1, 'John', 'Doe', 'johndoe@mail.com');
+$customer2 = new Customer(2, 'Mary', 'Poppins', 'mp@mail.com');
 
-// Use getters and setters
-$book->setTitle('New Title');
-$book->setAvailable(10);
-$customer->setEmail('newemail@example.com');
+echo "<b>BOOK</b></br>";
+// isAvailable
+echo "Book-1 is available? " . $book1->isAvailable() . "</br>";
+// getPrintableTitle
+echo "Book-1 Title: " . $book1->getPrintableTitle() . "</br>";
 
-// Use dynamic getters and setters
-echo "Book Title: " . $book->getTitle() . "\n";
-echo "Customer Email: " . $customer->getEmail() . "\n";
+echo "</br>";
 
-// Check if you can get a copy of the book
-if ($book->getCopy()) {
-    echo "You can get a copy of the book.\n";
-} else {
-    echo "The book is out of stock.\n";
-}
+// addCopy
+echo "Book-1 Title: " . $book1->getPrintableTitle() . "</br>";
+echo "Book-3 availableCopy: " . $book3->availableCopy . "</br>"; 
+$book3->__call("addCopy","2"); // add A copy of Book-3
+echo "Book-3 availableCopy after adding 2 copy: " . $book3->availableCopy . "</br>";
 
-// Add copies of the book
-$book->addCopy(3);
+echo "</br>";
 
-// Display the book and customer information
-echo "Book Information:\n" . $book . "\n";
-echo "Customer Information:\n" . $customer . "\n";
+//getTitle
+echo "Book-1 Title: <b>" . $book1->title . "</b></br>";
+//getAuthor
+echo "Book-1 Author: <b>" . $book1->author . "</b></br>";
+//getIsbn
+echo "Book-1 Isbn: <b>" . $book1->isbn . "</b></br>";
+
+//Customer INFO.
+echo "</br> <b>CUSTOMER</b> </br>";
+echo "Customer-1 Id: <b>" . $customer1->id . "</b></br>";
+echo "Customer-1 First Name: <b>" . $customer1->firstName . "</b></br>";
+echo "Customer-1 Last Name: <b>" . $customer1->lastName . "</b></br>";
+echo "Customer-1 Email: <b>" . $customer1->email . "</b></br>";
+$customer1->email = "adrit@gmail.com";
+echo "Customer-1 Email after update: <b>" . $customer1->email . "</b></br>";
+
 ?>
